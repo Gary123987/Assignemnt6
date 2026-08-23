@@ -29,10 +29,7 @@ public class BookController {
     }
 
     public void saveBooksToFile(String fileName) {
-        // TODO: create an ObjectOutputStream named oos that nests
-        //       a FileOutputStream constructed from fileName
-        //       The streams must be created in a try-with-resources
-        try (...) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(books);
             view.showMessage("Books saved to file: " + fileName);
         } catch (IOException e) {
@@ -41,10 +38,7 @@ public class BookController {
     }
 
     public void loadBooksFromFile(String fileName) {
-        // TODO: create an ObjectInputStream named ois that nests
-        //       a FileInputStream constructed from fileName
-        //       The streams must be created in a try-with-resources
-        try (...) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             books = (List<Book>) ois.readObject();
             view.showMessage("Books loaded from file: " + fileName);
         } catch (IOException | ClassNotFoundException e) {
@@ -82,6 +76,7 @@ public class BookController {
             }
         }
     }
+
     public static void main(String[] args) {
         BookView view = new BookView();
         BookController controller = new BookController(view);
